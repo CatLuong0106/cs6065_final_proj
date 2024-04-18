@@ -131,7 +131,7 @@ function Table({ columns, rows }) {
 
   return useMemo(
     () => (
-      <TableContainer>
+      <TableContainer style={{ maxHeight: '60vh', overflowY: 'auto' }}>
         <MuiTable>
           <SoftBox component="thead">
             <TableRow>{renderColumns}</TableRow>

@@ -41,11 +41,30 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
   console.log(process.env.REACT_APP_TEST)
+  const [households, setHouseholds] = useState([]);
+  const [hshdNum, setHshdNum] = useState('');
+
+
+  useEffect(() => {
+    const fetchHouseholds = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/getHouseholds/10');
+        setHouseholds(response.data); // Update state with fetched data
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchHouseholds();
+  }, []);
 
   return (
     <DashboardLayout>
