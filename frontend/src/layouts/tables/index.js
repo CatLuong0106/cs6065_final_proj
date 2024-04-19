@@ -44,7 +44,8 @@ function Tables() {
   const [dataRows, setDataRows] = useState([]);
   const [hshdNum, setHshdNum] = useState('');
   const [householdsFile, setHouseholdsFile] = useState(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [transactionsFile, setTransactionsFile] = useState(null);
+  const [productsFile, setProductsFile] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -98,7 +99,7 @@ function Tables() {
         });
 
         if (response.status === 200) {
-          alert("File uploaded successfully!");
+          alert("Households File uploaded successfully!");
         } 
 
       } catch (error) {
@@ -107,14 +108,49 @@ function Tables() {
     }
   };
 
-  const handleCloseNotification = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  const handleFileTransactions = async () => {
+    if (transactionsFile) {
+      const formData = new FormData();
+      formData.append('file', transactionsFile);
 
-    setUploadSuccess(false);
+      try {
+        const response = await axios.post('http://localhost:5000/uploadTransactionsFile', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        if (response.status === 200) {
+          alert("Transactions File uploaded successfully!");
+        } 
+
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
   };
 
+  const handleFileProducts = async () => {
+    if (productsFile) {
+      const formData = new FormData();
+      formData.append('file', productsFile);
+
+      try {
+        const response = await axios.post('http://localhost:5000/uploadProductsFile', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        if (response.status === 200) {
+          alert("Products File uploaded successfully!");
+        } 
+
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
 
   const columns = [
     { name: 'Hshd_num', align: 'left', width: '100px' },
@@ -175,27 +211,18 @@ function Tables() {
               <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
                 <input type="file" onChange={(e) => setHouseholdsFile(e.target.files[0])} /> 
                 <button onClick={handleFileHouseholds}  style={{ fontSize: '12px', padding: '8px 10px', marginLeft: '10px',backgroundColor: '#1cadad', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Upload Households File</button>
-                <Snackbar
-                  open={uploadSuccess}
-                  autoHideDuration={3000} // Adjust duration as needed (in milliseconds)
-                  onClose={handleCloseNotification}
-                >
-                  <Alert onClose={handleCloseNotification} severity="success" sx={{ width: '100%' }}>
-                    File uploaded successfully!
-                  </Alert>
-                </Snackbar>
               </SoftBox>
             </Card>
             <Card style={{width:'30%'}} display="flex" justifyContent="space-between" alignItems="center">
               <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                <input type="file" /> 
-                <button  style={{ fontSize: '12px', padding: '8px 10px', marginLeft: '10px',backgroundColor: '#1cadad', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Upload Transactions File</button>
+                <input type="file" onChange={(e) => setTransactionsFile(e.target.files[0])}/> 
+                <button  onClick={handleFileTransactions} style={{ fontSize: '12px', padding: '8px 10px', marginLeft: '10px',backgroundColor: '#1cadad', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Upload Transactions File</button>
               </SoftBox>
             </Card>
             <Card style={{width:'30%', marginRight: '-22px'}} display="flex" justifyContent="space-between" alignItems="center">
               <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                <input type="file"/> 
-                <button  style={{ fontSize: '12px', padding: '8px 10px', marginLeft: '10px',backgroundColor: '#1cadad', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Upload Products File</button>
+                <input type="file" onChange={(e) => setProductsFile(e.target.files[0])}/> 
+                <button  onClick={handleFileProducts} style={{ fontSize: '12px', padding: '8px 10px', marginLeft: '10px',backgroundColor: '#1cadad', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Upload Products File</button>
               </SoftBox>
             </Card>
           </SoftBox>
