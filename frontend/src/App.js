@@ -48,6 +48,8 @@ import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "contex
 // Images
 import brand from "assets/images/logo-ct.png";
 import { AuthProvider } from "context/authContext";
+import SignIn from "layouts/authentication/sign-in";
+import SignUp from "layouts/authentication/sign-up";
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -155,6 +157,8 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
+        <Route path="/authentication/sign-in" element={<SignIn/>} />
+        <Route path="/authentication/sign-up" element={<SignUp/>} />
         <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
       </Routes>
     </ThemeProvider>

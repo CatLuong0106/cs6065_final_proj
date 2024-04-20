@@ -38,9 +38,6 @@ function SignIn() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const onSubmit = async(e) => {
     e.preventDefault();
