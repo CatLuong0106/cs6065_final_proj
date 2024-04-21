@@ -50,10 +50,10 @@ function Tables() {
     let url = ''
 
     if (hshdNum | hshdNum != 0) {
-      url = `http://localhost:5000/getHouseholds/${hshdNum}?page=${page}&pageSize=${pageSize}`
+      url = `/getHouseholds/${hshdNum}?page=${page}&pageSize=${pageSize}`
     }
     else {
-      url = `http://localhost:5000/getHouseholds?page=${page}&pageSize=${pageSize}`
+      url = `/getHouseholds?page=${page}&pageSize=${pageSize}`
     }
 
     try {
@@ -86,7 +86,7 @@ function Tables() {
       formData.append('file', householdsFile);
 
       try {
-        const response = await axios.post('http://localhost:5000/uploadHouseholdsFile', formData, {
+        const response = await axios.post('/uploadHouseholdsFile', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -108,7 +108,7 @@ function Tables() {
       formData.append('file', transactionsFile);
 
       try {
-        const response = await axios.post('http://localhost:5000/uploadTransactionsFile', formData, {
+        const response = await axios.post('/uploadTransactionsFile', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -130,7 +130,7 @@ function Tables() {
       formData.append('file', productsFile);
 
       try {
-        const response = await axios.post('http://localhost:5000/uploadProductsFile', formData, {
+        const response = await axios.post('/uploadProductsFile', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
