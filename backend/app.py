@@ -9,6 +9,7 @@ from flask_cors import CORS
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import pandas as pd
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -46,7 +47,7 @@ def getHousehold():
                    """, (offset, pageSize))
 
     results = [dict(zip([column[0] for column in cursor.description], row)) for row in cursor.fetchall()]
-
+    
     # Check if results are empty (no records found for the specified page)
     if not results:
         abort(404, description="Households not found")
@@ -77,6 +78,8 @@ def getHouseholdByID(household_id):
                     FETCH NEXT ? ROWS ONLY;""", (household_id, offset, pageSize))
 
     results = [dict(zip([column[0] for column in cursor.description], row)) for row in cursor.fetchall()]
+
+
     if len(results) == 0 or results is None:
         abort(404, description="Households not found")
     conn.close()
