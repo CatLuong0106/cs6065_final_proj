@@ -26,12 +26,6 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Tables/Table";
 
-// Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 

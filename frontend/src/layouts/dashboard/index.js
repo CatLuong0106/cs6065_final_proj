@@ -15,7 +15,6 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Icon from "@mui/material/Icon";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -25,21 +24,13 @@ import SoftTypography from "components/SoftTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 
 // Soft UI Dashboard React base styles
 import typography from "assets/theme/base/typography";
 
-// Dashboard layout components
-import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
-import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
-import Projects from "layouts/dashboard/components/Projects";
-import OrderOverview from "layouts/dashboard/components/OrderOverview";
-
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -51,13 +42,14 @@ function Dashboard() {
   const [years, setYears] = useState([]);
   const [yearlyTransactions, setYearlyTransactions] = useState([]);
   const [chart, setChart] = useState('');
+  const [chartSpending, setChartSpending] = useState('');
   const [items, setItems] = useState();
   const [gradientLineChartData_IR, setGradientLineChartData_IR] = useState('');
   const [gradientLineChartData_HS, setGradientLineChartData_HS] = useState('');
 
 
   useEffect(() => {
-    processDataAndPopulateYearlyTrans();
+      processDataAndPopulateYearlyTrans();
   }, []);
 
   const fetchHouseholds = async () => {
@@ -249,7 +241,76 @@ function Dashboard() {
       };
 
       setGradientLineChartData_HS(gradientLineChartData_HS)
+
+      const data2021 = 
+      {
+        "Week 1": 4.226732969284058,
+        "Week 2": 4.234351634979248,
+        "Week 3": 4.2419703006744385,
+        "Week 4": 4.249588966369629,
+        "Week 5": 4.257207632064819,
+        "Week 6": 4.26482629776001,
+        "Week 7": 4.2724449634552,
+        "Week 8": 4.280063629150391,
+        "Week 9": 4.287682294845581,
+        "Week 10": 4.2953009605407715,
+        "Week 11": 4.302919626235962,
+        "Week 12": 4.310538291931152,
+        "Week 13": 4.318156957626343,
+        "Week 14": 4.325775623321533,
+        "Week 15": 4.333394289016724,
+        "Week 16": 4.341012954711914,
+        "Week 17": 4.3486316204071045,
+        "Week 18": 4.356250286102295,
+        "Week 19": 4.363868951797485,
+        "Week 20": 4.371487617492676,
+        "Week 21": 4.379106283187866,
+        "Week 22": 4.386724948883057,
+        "Week 23": 4.394343614578247,
+        "Week 24": 4.4019622802734375,
+        "Week 25": 4.409580945968628,
+        "Week 26": 4.417199611663818,
+        "Week 27": 4.424818277359009,
+        "Week 28": 4.432436943054199,
+        "Week 29": 4.44005560874939,
+        "Week 30": 4.44767427444458,
+        "Week 31": 4.4552929401397705,
+        "Week 32": 4.462911605834961,
+        "Week 33": 4.470530271530151,
+        "Week 34": 4.478148937225342,
+        "Week 35": 4.485767602920532,
+        "Week 36": 4.493386268615723,
+        "Week 37": 4.501004934310913,
+        "Week 38": 4.5086236000061035,
+        "Week 39": 4.516242265701294,
+        "Week 40": 4.523860931396484,
+        "Week 41": 4.531479597091675,
+        "Week 42": 4.539098262786865,
+        "Week 43": 4.546716928482056,
+        "Week 44": 4.554335594177246,
+        "Week 45": 4.5619542598724365,
+        "Week 46": 4.569572925567627,
+        "Week 47": 4.577191591262817,
+        "Week 48": 4.584810256958008,
+        "Week 49": 4.592428922653198,
+        "Week 50": 4.600047588348389,
+        "Week 51": 4.607666254043579,
+        "Week 52": 4.6152849197387695
+      }
+
+    const weeks = Object.keys(data2021);
+    const weekSpendings = Object.values(data2021);
+
+    console.log(weeks);
+
     
+    const chartSpending = {
+      labels: weeks,
+      datasets: { label: "Spending", data: weekSpendings },
+    }
+
+    setChartSpending(chartSpending);
+
         // Now you can use yearlyTrans for further processing or rendering
         // For example, update state with this data if you're using React hooks
         // setYearlyTransactions(yearlyTrans);
@@ -265,11 +326,18 @@ function Dashboard() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
+            <Grid item xs={12} lg={6}>
               <ReportsBarChart
                 title="Household transactions"
                 chart={chart}
                 items={items}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <ReportsBarChart
+                title="Weekly Spending in 2021 Predictions for Households with Income from 50-74K "
+                chart={chartSpending}
+                description="We used Linear Regression to predict the weekly spending for households with Income from 50-74K in 2021. The data used for to train the model was the average weekly spending from previous years. The results we have ranges from $4.2-$4.6. The performance of our model was evaluated using mean squared error and R-squared metrics, which indicated moderate predictive accuracy. However, the observed range of predicted values underscores the need for caution in interpreting individual predictions due to inherent data limitations."
               />
             </Grid>
           </Grid>
