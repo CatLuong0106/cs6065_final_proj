@@ -54,7 +54,7 @@ function Dashboard() {
 
   const fetchHouseholds = async () => {
 
-    let url = 'http://localhost:5000/getHouseholds?page=1&pageSize=50000'
+    let url = '/getHouseholds?page=1&pageSize=50000'
 
     try {
       const response = await axios.get(url);
@@ -326,14 +326,14 @@ function Dashboard() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={4}>
               <ReportsBarChart
                 title="Household transactions"
                 chart={chart}
                 items={items}
               />
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={8}>
               <ReportsBarChart
                 title="Weekly Spending in 2021 Predictions for Households with Income from 50-74K "
                 chart={chartSpending}

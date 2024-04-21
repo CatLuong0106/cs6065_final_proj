@@ -1,7 +1,7 @@
 import os
 import pyodbc, struct
 from azure import identity
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, render_template
 from typing import Union
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -11,12 +11,17 @@ from werkzeug.utils import secure_filename
 import pandas as pd
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/build/static", template_folder="../frontend/build")
 CORS(app)
 
 load_dotenv()
 
 connection_string = os.environ["AZURE_CONNECTION_STRING"]
+
+@app.route("/")
+def frontend():
+    return render_template("index.html")
+
 
 # Establish connection to the Azure SQL database
 def get_db_connection():
@@ -41,7 +46,7 @@ def getHousehold():
                     FROM [dbo].[Households] AS hh
                     JOIN [dbo].[Transactions20k] AS tr ON hh.Hshd_num = tr.Hshd_num
                     JOIN [dbo].[Products] AS pr ON tr.Product_num = pr.Product_num
-                    ORDER BY hh.Hshd_num
+                    ORDER BY hh.Hshd_num, Basket_num, Purchase_date, tr.Product_num, Department, Commodity
                     OFFSET ? ROWS
                     FETCH NEXT ? ROWS ONLY;
                    """, (offset, pageSize))
@@ -73,7 +78,7 @@ def getHouseholdByID(household_id):
                     JOIN [dbo].[Transactions20k] AS tr ON hh.Hshd_num = tr.Hshd_num
                     JOIN [dbo].[Products] AS pr ON tr.Product_num = pr.Product_num
                     WHERE hh.Hshd_num = ?
-                    ORDER BY hh.Hshd_num
+                    ORDER BY hh.Hshd_num, Basket_num, Purchase_date, tr.Product_num, Department, Commodity
                     OFFSET ? ROWS
                     FETCH NEXT ? ROWS ONLY;""", (household_id, offset, pageSize))
 
@@ -225,4 +230,4 @@ def uploadProductsFile():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
