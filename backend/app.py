@@ -46,7 +46,7 @@ def getHousehold():
                     FROM [dbo].[Households] AS hh
                     JOIN [dbo].[Transactions20k] AS tr ON hh.Hshd_num = tr.Hshd_num
                     JOIN [dbo].[Products] AS pr ON tr.Product_num = pr.Product_num
-                    ORDER BY hh.Hshd_num
+                    ORDER BY hh.Hshd_num, Basket_num, Purchase_date, tr.Product_num, Department, Commodity
                     OFFSET ? ROWS
                     FETCH NEXT ? ROWS ONLY;
                    """, (offset, pageSize))
@@ -78,7 +78,7 @@ def getHouseholdByID(household_id):
                     JOIN [dbo].[Transactions20k] AS tr ON hh.Hshd_num = tr.Hshd_num
                     JOIN [dbo].[Products] AS pr ON tr.Product_num = pr.Product_num
                     WHERE hh.Hshd_num = ?
-                    ORDER BY hh.Hshd_num
+                    ORDER BY hh.Hshd_num, Basket_num, Purchase_date, tr.Product_num, Department, Commodity
                     OFFSET ? ROWS
                     FETCH NEXT ? ROWS ONLY;""", (household_id, offset, pageSize))
 
